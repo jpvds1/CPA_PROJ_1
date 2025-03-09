@@ -65,7 +65,7 @@ string OnMult(int m_ar, int m_br, int cores)
 
     Time1 = omp_get_wtime();
 
-    #pragma omp parallel for private(j, k, temp) schedule(static)
+#pragma omp parallel for private(j, k, temp) schedule(static)
     for (i = 0; i < m_ar; i++)
     {
         for (j = 0; j < m_br; j++)
@@ -121,19 +121,18 @@ string OnMultLine(int m_ar, int m_br, int cores)
         for (j = 0; j < m_br; j++)
             phb[i * m_br + j] = (double)(i + 1);
 
-    omp_set_num_threads(cores);
+    //omp_set_num_threads(cores);
 
     Time1 = omp_get_wtime();
 
-    #pragma omp parallel for collapse(2) private(j) schedule(static)
-    for (i = 0; i < m_ar; i++)
+    #pragma omp parallel for collapse(2)
+    for (int i = 0; i < m_ar; i++)
     {
-        for (k = 0; k < m_ar; k++)
+        for (int j = 0; j < m_br; j++) 
         {
-            double val = pha[i * m_ar + k];
-            for (j = 0; j < m_br; j++)
+            for (int k = 0; k < m_br; k++)
             {
-                phc[i * m_ar + j] += val * phb[k * m_br + j];
+                phc[i * m_br + k] += pha[i * m_br + j] * phb[j * m_br + k];
             }
         }
     }
@@ -308,11 +307,19 @@ int main(int argc, char *argv[])
         cores.push_back(i);
     }
 
-    for (int i : size2) {
-        caller(2, i, 8);
+    for (int c : cores) {
+        for (int i : size) {
+            caller(2, i, c);
+        }
+    }
+    
+    /*
+    for (int i : size2)
+    {
+        caller(2, i, 1);
     }
 
-    /*
+    
     for (int c : cores) {
         for (int i : size) {
             caller(1, i, c);
@@ -324,8 +331,8 @@ int main(int argc, char *argv[])
             caller(2, i, c);
         }
     }
- 
-    
+
+
     for (int i : size)
     {
         caller(1, i, 1);
