@@ -121,7 +121,7 @@ string OnMultLine(int m_ar, int m_br, int cores)
         for (j = 0; j < m_br; j++)
             phb[i * m_br + j] = (double)(i + 1);
 
-    //omp_set_num_threads(cores);
+    omp_set_num_threads(cores);
 
     Time1 = omp_get_wtime();
 
@@ -307,10 +307,12 @@ int main(int argc, char *argv[])
         cores.push_back(i);
     }
 
-    for (int c : cores) {
-        for (int i : size) {
-            caller(2, i, c);
-        }
+    for (int i : size2) {
+        caller(2, i, 10);
+    }
+
+    for (int i : size2) {
+        caller(2, i, 16);
     }
     
     /*
