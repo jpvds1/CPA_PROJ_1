@@ -8,6 +8,8 @@
 #include <vector>
 #include <fstream>
 #include <unistd.h>
+#include <eml/energy.hpp>
+
 
 using namespace std;
 
