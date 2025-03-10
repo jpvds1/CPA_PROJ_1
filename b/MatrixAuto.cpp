@@ -131,11 +131,11 @@ string OnMultLine(int m_ar, int m_br, int cores)
         for (j = 0; j < m_br; j++)
             phb[i * m_br + j] = (double)(i + 1);
 
-    omp_set_num_threads(cores);
+    //omp_set_num_threads(cores);
 
     Time1 = omp_get_wtime();
 
-    #pragma omp parallel for collapse(2)
+    //#pragma omp parallel for collapse(2)
     for (int i = 0; i < m_ar; i++)
     {
         for (int j = 0; j < m_br; j++)
@@ -329,16 +329,8 @@ int main(int argc, char *argv[])
     }
 
     
-    for (int c : cores) {
-        for (int i : size3) {
-            caller(1, i, c);
-        }
-    }
-
-    for (int c : cores) {
-        for (int i : size3) {
-            caller(2, i, c);
-        }
+    for (int i : size3) {
+        caller(2, i, 1);
     }
 
     return 0;
