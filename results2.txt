@@ -1,0 +1,1 @@
+type,size,cores,time,L1_DCM,L2_DCM,FP_INS,TOT_INS,FP_OPS,energy

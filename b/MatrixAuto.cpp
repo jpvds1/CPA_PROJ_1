@@ -132,7 +132,7 @@ string OnMultLine(int m_ar, int m_br, int cores)
             phb[i * m_br + j] = (double)(i + 1);
 
     //omp_set_num_threads(cores);
-
+    
     Time1 = omp_get_wtime();
 
     //#pragma omp parallel for collapse(2)
@@ -142,7 +142,7 @@ string OnMultLine(int m_ar, int m_br, int cores)
         {
             for (int k = 0; k < m_br; k++)
             {
-                phc[i * m_br + k] += pha[i * m_br + j] * phb[j * m_br + k];
+                phc[i * m_ar + k] += pha[i * m_ar + j] * phb[j * m_br + k];
             }
         }
     }
@@ -328,10 +328,8 @@ int main(int argc, char *argv[])
         cores.push_back(i);
     }
 
-    
     for (int i : size3) {
         caller(2, i, 1);
     }
-
     return 0;
 }
